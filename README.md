@@ -33,15 +33,15 @@ Follow these steps
 
 6. Select “Existing Projects into Workspace” option and click next
 
-![Existing Projects into Workspace](https://github.com/PartnerCenterSamples/Commerce-API-Java/master/ReadmeImages/CREST-Java-Image2.png "Existing Projects into Workspace")
+![Existing Projects into Workspace](https://raw.githubusercontent.com/PartnerCenterSamples/Commerce-API-Java/master/ReadmeImages/CREST-Java-Image2.png "Existing Projects into Workspace")
 
 7. Select the root directory option and browse for the extracted code, an example illustration is shown below. Click Finish
 
-![Import Projects](https://github.com/PartnerCenterSamples/Commerce-API-Java/master/ReadmeImages/CREST-Java-Image3.png "Import Projects")
+![Import Projects](https://raw.githubusercontent.com/PartnerCenterSamples/Commerce-API-Java/master/ReadmeImages/CREST-Java-Image3.png "Import Projects")
 
 8. The code along with the project should appear as below in the eclipse IDE
 
-![Code in IDE](https://github.com/PartnerCenterSamples/Commerce-API-Java/master/ReadmeImages/CREST-Java-Image4.png "Code in IDE")
+![Code in IDE](https://raw.githubusercontent.com/PartnerCenterSamples/Commerce-API-Java/master/ReadmeImages/CREST-Java-Image4.png "Code in IDE")
 
 9. Configure the Java Build Path 
 ..1.	Right click on the project and click on “Properties->Java Build Path”
@@ -51,7 +51,7 @@ Follow these steps
 ...*commons-logging-1.2.jar 
 ...*json-simple-1.1.1.jar
 
-![Java Build Path](https://github.com/PartnerCenterSamples/Commerce-API-Java/master/ReadmeImages/CREST-Java-Image5.png "Java Build Path")
+![Java Build Path](https://raw.githubusercontent.com/PartnerCenterSamples/Commerce-API-Java/master/ReadmeImages/CREST-Java-Image5.png "Java Build Path")
 
 10. Eclipse should now build the project with no errors.
 11. To run the sample right click on the file TestCrestApi.java, select Debug-As, and select Java Application.
