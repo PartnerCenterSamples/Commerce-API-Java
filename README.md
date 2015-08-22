@@ -22,10 +22,9 @@ ApiEndpoint=https://api.cp.microsoft.com
 Follow these steps
 
 1. Download the following jars and save them in a local folder
-
-..1.	Apache HttpClient 4.5 is located at https://hc.apache.org/downloads.cgi
-..2.	Download and extract the .zip file httpcomponents-client-4.5-bin.zip in to a folder
-..3.	Download JSON parser - json_simple-1.1.jar from https://code.google.com/p/json-simple/downloads/detail?name=json_simple-1.1.jar&can=2&q= in to a folder
+..* Apache HttpClient 4.5 is located at https://hc.apache.org/downloads.cgi
+..* Download and extract the .zip file httpcomponents-client-4.5-bin.zip in to a folder
+..* Download JSON parser - json_simple-1.1.jar from https://code.google.com/p/json-simple/downloads/detail?name=json_simple-1.1.jar&can=2&q= in to a folder
 2. Download and extract the Commerce-API-Java source code zip file from GIT hub
 3. Eclipse IDE is required to run the Commerce-API-Java project, please download the same from https://www.eclipse.org/downloads/
 4. If JDK is not installed, download & install latest jdk from http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
@@ -43,8 +42,8 @@ Follow these steps
 9. Configure the Java Build Path 
 ..1.	Right click on the project and click on “Properties->Java Build Path”
 ..2.	Click “Add External JARs” and choose the following jar files from the local folders where they were downloaded earlier
-...*httpclient-4.5.jar, 
-...*httpcore-4.4.1.jar , 
+...*httpclient-4.5.jar 
+...*httpcore-4.4.1.jar
 ...*commons-logging-1.2.jar 
 ...*json-simple-1.1.1.jar
 
