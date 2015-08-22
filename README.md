@@ -16,5 +16,35 @@ AppId=xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 Key=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 ApiEndpoint=https://api.cp.microsoft.com
-============================================================================
+
+#Build and run instructions
+
+Follow these steps
+1. Download the following jars and save them in a local folder
+..1.	Download Apache HttpClient 4.5 from https://hc.apache.org/downloads.cgi
+..a.	Download and extract the .zip file httpcomponents-client-4.5-bin.zip in to a folder
+..2.	Download JSON parser - json_simple-1.1.jar from https://code.google.com/p/json-simple/downloads/detail?name=json_simple-1.1.jar&can=2&q= in to a folder
+2. Download and extract the Commerce-API-Java source code zip file from GIT hub
+3. Eclipse IDE is required to run the Commerce-API-Java project, please download the same from https://www.eclipse.org/downloads/
+4. If JDK is not installed, download & install latest jdk from http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+5. Open the eclipse IDE and click on File->Import
+![File Import Menu](https://github.com/PartnerCenterSamples/Commerce-API-Java/ReadmeImages/CREST-Java-Image1.png "File Import Menu")
+6. Select “Existing Projects into Workspace” option and click next
+![Existing Projects into Workspace](https://github.com/PartnerCenterSamples/Commerce-API-Java/ReadmeImages/CREST-Java-Image2.png "Existing Projects into Workspace")
+7. Select the root directory option and browse for the extracted code, an example illustration is shown below. Click Finish
+![Import Projects](https://github.com/PartnerCenterSamples/Commerce-API-Java/ReadmeImages/CREST-Java-Image3.png "Import Projects")
+8. The code along with the project should appear as below in the eclipse IDE
+![Code in IDE](https://github.com/PartnerCenterSamples/Commerce-API-Java/ReadmeImages/CREST-Java-Image4.png "Code in IDE")
+9. Configure the Java Build Path 
+..1.	Right click on the project and click on “Properties->Java Build Path”
+..2.	Click “Add External JARs” and choose the following jar files from the local folders where they were downloaded earlier
+...*httpclient-4.5.jar, 
+...*httpcore-4.4.1.jar , 
+...*commons-logging-1.2.jar 
+...*json-simple-1.1.1.jar
+![Java Build Path](https://github.com/PartnerCenterSamples/Commerce-API-Java/ReadmeImages/CREST-Java-Image5.png "Java Build Path")
+10. Eclipse should now build the project with no errors.
+11. To run the sample right click on the file TestCrestApi.java, select Debug-As, and select Java Application.
+
+
 
