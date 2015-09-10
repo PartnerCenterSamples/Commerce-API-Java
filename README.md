@@ -7,11 +7,13 @@ A public forum for discussing the APIs is available at https://social.msdn.micro
 
 # Update CREST API Credentials
 Before you build these samples, please update the following in the file - CrestApiCredentials.properties, for your integration sandbox account.
-Go to http://partnercenterservice.microsoft.com/pc/AccountSettings/TenantProfile to get this information
+Go to https://partnercenter.microsoft.com/pc/AccountSettings/TenantProfile to get this information
+Watch the youtube video which will guide you to fill the details - https://www.youtube.com/watch?v=8RRssasC2Ys&feature=youtu.be
 DefaultDomain=xxxxxxxxxxxx.onmicrosoft.com        
 MicrosoftId=xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 
-Go to http://partnercenterservice.microsoft.com/pc/pc/APIIntegration to fill the below details
+Go to https://partnercenter.microsoft.com/pc/APIIntegration to fill the below details
+Watch the youtube video which will guide you to fill the details - https://www.youtube.com/watch?v=8RRssasC2Ys&feature=youtu.be
 AppId=xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 Key=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 

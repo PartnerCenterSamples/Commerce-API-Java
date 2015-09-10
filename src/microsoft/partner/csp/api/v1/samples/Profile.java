@@ -26,18 +26,16 @@ import org.json.simple.parser.ParseException;
 @SuppressWarnings("unchecked")
 public class Profile {
 
-	private String customerId;
-	private String customerToken;
 	private String profileId;
 	private String etag;
 	private String customerProfile;
 	
-	public Profile(String customerId, String customerToken)
+	public Profile()
 	{
-		this.customerId = customerId;
-		this.customerToken = customerToken;
+		
 	}
-	public String getCustomerProfile()
+	
+	public String getCustomerProfile(String customerId, String customerToken)
 	{
 		String requestUrl = String.format("%s%s%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), "/", customerId, "/profiles");
 		System.out.println("Request Url = " + requestUrl);
@@ -102,7 +100,7 @@ public class Profile {
 	{
 		return etag;
 	}
-	public void updateCustomerProfile()
+	public void updateCustomerProfile(String customerId, String customerToken)
 	{
 		String requestUrl = String.format("%s%s%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), "/", customerId, "/profiles");
 		System.out.println("Request Url = " + requestUrl);

@@ -18,15 +18,12 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 public class Entitlement {
 
-	private String cToken;
 	private String allEntitlements;
-	
-	public Entitlement(String cToken)
+
+	public Entitlement()
 	{
-		this.cToken = cToken;
 	}
-	
-	public String getAllEntitlements(String customerCid) 
+	public String getAllEntitlements(String customerCid, String cToken) 
 	{
 		String requestUrl = String.format("%s%s%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), "/", customerCid, "/Entitlements");
 		System.out.println("Request Url = " + requestUrl);

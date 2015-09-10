@@ -1,8 +1,8 @@
 /*********************************************************
-*                                                        * 
-*   Copyright (C) Microsoft. All rights reserved.        * 
-*                                                        * 
-*********************************************************/ 
+ *                                                        * 
+ *   Copyright (C) Microsoft. All rights reserved.        * 
+ *                                                        * 
+ *********************************************************/ 
 
 package microsoft.partner.csp.api.v1.samples;
 
@@ -30,27 +30,26 @@ import org.json.simple.parser.ParseException;
 @SuppressWarnings("unchecked")
 public class Customer {
 
-	private String saToken;
 	private String customerId;
 	private String tid;
 	private String eTid;
 	private String customerToken;
 
-	public Customer(String saToken)
+	public Customer()
 	{
-		this.saToken = saToken;
+
 	}
-	
-    // summary
-    // This method is used to get customer info in the Microsoft reseller ecosystem by the reseller
-    // summary
-    // param name="customerCid", cid of the customer whose information we are trying to retrieve
-    // returns: the created customer information: customer cid, customer microsoft id 
-	public void getCustomerbyCustomerId(String customerCid)
+
+	// summary
+	// This method is used to get customer info in the Microsoft reseller ecosystem by the reseller
+	// summary
+	// param name="customerCid", cid of the customer whose information we are trying to retrieve
+	// returns: the created customer information: customer cid, customer microsoft id 
+	public void getCustomerbyCustomerId(String customerCid, String saToken)
 	{
 		String requestUrl = String.format("%s%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), "/", customerCid);
 		System.out.println("Request Url = " + requestUrl);
-		
+
 		HttpResponse response = null;
 		CloseableHttpClient client = HttpClientBuilder.create().build();
 		String responseBody;
@@ -63,7 +62,7 @@ public class Customer {
 			getRequest.addHeader("x-ms-correlation-id", UUID.randomUUID().toString());
 			getRequest.addHeader("x-ms-tracking-id", UUID.randomUUID().toString());
 			getRequest.addHeader("api-version", "2015-03-31");
-			
+
 			response = client.execute(getRequest);
 			responseBody = CrestApiUtilities.parseResponse(response);
 			System.out.println("Response for getCustomerbyCustomerId = " + responseBody);
@@ -89,11 +88,11 @@ public class Customer {
 	// param name="customerMicrosoftId", Microsoft ID of the customer, this is expected to be available to the reseller, tid
 	// param name="resellerMicrosoftId", Microsoft ID of the reseller, etid
 	// returns: customer cid that can be used to perform transactions on behalf of the customer by the reseller
-	public void getCustomerbyIdentity(String customerMicrosoftId, String resellerMicrosoftId)
+	public void getCustomerbyIdentity(String customerMicrosoftId, String resellerMicrosoftId, String saToken)
 	{
 		String requestUrl = String.format("%s%s%s%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), "/customers/get-by-identity?provider=AAD&type=external_group&tid=", customerMicrosoftId, "&etid=",resellerMicrosoftId );
 		System.out.println("Request Url = " + requestUrl);
-		
+
 		HttpResponse response = null;
 		CloseableHttpClient client = HttpClientBuilder.create().build();
 		String responseBody;
@@ -107,7 +106,7 @@ public class Customer {
 			getRequest.addHeader("x-ms-correlation-id", UUID.randomUUID().toString());
 			getRequest.addHeader("x-ms-tracking-id", UUID.randomUUID().toString());
 			getRequest.addHeader("api-version", "2015-03-31");
-			
+
 			response = client.execute(getRequest);
 			responseBody = CrestApiUtilities.parseResponse(response);
 			System.out.println("Response for getCustomerbyIdentity = " + responseBody);
@@ -126,18 +125,18 @@ public class Customer {
 			System.out.println("IO Exception occured while getting the response - " + e.getMessage());
 		} 
 	}
-	
-    // summary
-    // This method is used to get the customer token given a customer cid and the ad token
-    // summary
-    // param name="customerCid", cid of the customer
-    // param name="adAuthorizationToken", active directory authorization token
-    // returns : customer authorization token
+
+	// summary
+	// This method is used to get the customer token given a customer cid and the ad token
+	// summary
+	// param name="customerCid", cid of the customer
+	// param name="adAuthorizationToken", active directory authorization token
+	// returns : customer authorization token
 	public String getCustomerToken(String customerCid, String aadToken)
 	{
 		String requestUrl = String.format("%s%s%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), "/", customerCid, "/tokens");
 		System.out.println("Request Url = " + requestUrl);
-		
+
 		HttpResponse response = null;
 		CloseableHttpClient client = HttpClientBuilder.create().build();
 		String responseBody;
@@ -152,15 +151,15 @@ public class Customer {
 			postRequest.addHeader("x-ms-tracking-id", UUID.randomUUID().toString());
 			postRequest.addHeader("api-version", "2015-03-31");
 			postRequest.addHeader("Content-Type", "application/x-www-form-urlencoded");
-			
+
 			List<NameValuePair>requestBody = new ArrayList<NameValuePair>();
 			requestBody.add(new BasicNameValuePair("grant_type","client_credentials"));
 			postRequest.setEntity(new UrlEncodedFormEntity(requestBody));
-			
+
 			response = client.execute(postRequest);
 			responseBody = CrestApiUtilities.parseResponse(response);
 			client.close();
-			
+
 			JSONParser parser = new JSONParser();
 			JSONObject jsonResponse = (JSONObject) parser.parse(responseBody);
 			customerToken = (String)jsonResponse.get("access_token");
@@ -184,23 +183,23 @@ public class Customer {
 		}
 		return customerToken;
 	}
-	
-    // summary
-    // This method is used to create a customer in the Microsoft reseller ecosystem by the reseller
-    // summary
-    // <Internal parameter ="customerJson">customer information: domain, admin credentials for the new tenant, address, primary contact info</param>
-    // param name="resellerCid", reseller cid
-    // returns: the newly created customer information: all of the above from customer, customer cid, customer microsoft id
-	public void createCustomer(String resellerCid)
+
+	// summary
+	// This method is used to create a customer in the Microsoft reseller ecosystem by the reseller
+	// summary
+	// <Internal parameter ="customerJson">customer information: domain, admin credentials for the new tenant, address, primary contact info</param>
+	// param name="resellerCid", reseller cid
+	// returns: the newly created customer information: all of the above from customer, customer cid, customer microsoft id
+	public void createCustomer(String resellerCid, String saToken)
 	{
 		String requestUrl = String.format("%s%s%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), "/", resellerCid, "/customers/create-reseller-customer");
 		System.out.println("Request Url = " + requestUrl);
-		
+
 		HttpResponse response = null;
 		CloseableHttpClient client = HttpClientBuilder.create().build();
 		String responseBody;
 		HttpPost postRequest = new HttpPost(requestUrl);
-		
+
 		try
 		{
 			postRequest.addHeader("Authorization", String.format("%s%s", "Bearer ",saToken));
@@ -216,7 +215,7 @@ public class Customer {
 			response = client.execute(postRequest);
 			responseBody = CrestApiUtilities.parseResponse(response);
 			client.close();
-			
+
 			System.out.println("Response Body = " + responseBody);
 
 			parseJSONResponse(responseBody);
@@ -238,21 +237,71 @@ public class Customer {
 			System.out.println("JSON Parse exception occured - " + e.getMessage());
 		}
 	}
+
+	// summary
+	// This method removes a single test customer account, by customer ID
+	// summary
+	// param name="resellerCid", reseller cid
+	// param name="customerCid", cid of the test customer to be removed 
+	public void deleteCustomer(String resellerCid, String customerCid, String saToken)
+	{
+		String requestUrl = String.format("%s%s%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), "/", resellerCid, "/customers/delete-tip-reseller-customer");
+		System.out.println("Request Url = " + requestUrl);
+
+		HttpResponse response = null;
+		CloseableHttpClient client = HttpClientBuilder.create().build();
+		HttpPost postRequest = new HttpPost(requestUrl);
+
+		try
+		{
+			postRequest.addHeader("Authorization", String.format("%s%s", "Bearer ",saToken));
+			postRequest.addHeader("x-ms-correlation-id", UUID.randomUUID().toString());
+			postRequest.addHeader("x-ms-tracking-id", UUID.randomUUID().toString());
+			postRequest.addHeader("api-version", "2015-03-31");
+			postRequest.addHeader("Accept", "application/json");
+			postRequest.addHeader("Content-Type", "application/json");
+			
+			JSONObject customerId = new JSONObject();
+			customerId.put("customer_id", customerCid);
+			
+			StringEntity se = new StringEntity(customerId.toString());
+			postRequest.setEntity(se);
+			
+			System.out.println("Request Body = "+ customerId.toString());
+			
+			response = client.execute(postRequest);
+			System.out.println("Response = " + response.toString());
+			client.close();
+		}
+		catch (ClientProtocolException e)
+		{
+			System.out.println("Client Protocol Exception Occured - " + e.getMessage());
+		}
+		catch (UnsupportedEncodingException ue)
+		{
+			System.out.println("Exception occured while creating the request body - " + ue.getMessage());
+		} 
+		catch (IOException e) 
+		{
+			System.out.println("IO Exception occured while getting the response - " + e.getMessage());
+		} 
+	}
+
 	private JSONObject createCutomerProfile()
 	{
 		JSONObject customerAddress = new JSONObject();
-		
+
 		System.out.println(" ====================================");
 		System.out.println(" Create a new customer");
 		System.out.println(" ====================================");
-		
+
 		System.out.println("Enter domain prefix to be created : ");
 		Scanner scanner = new Scanner(System.in);
 		String domainPrefix = scanner.nextLine();
-		
+
 		System.out.println("Company Name\t: ");
 		String company = scanner.nextLine();
-		
+
 		System.out.println("First Name\t: ");
 		String fName = scanner.nextLine();
 
@@ -267,16 +316,22 @@ public class Customer {
 
 		System.out.println("Address Line2\t:");
 		String addrLine2 = scanner.nextLine();
-		
+
 		System.out.println("City\t\t:");
 		String city = scanner.nextLine();
-		
+
 		System.out.println("State (example :WA, TX...)\t\t:");
 		String state = scanner.nextLine();
-		
+
 		System.out.println("ZipCode\t\t:");
 		String zip = scanner.nextLine();
-		
+
+		System.out.println("PhoneNumber\t\t:");
+		String phone = scanner.nextLine();
+
+		System.out.println("Country\t\t:");
+		String country = scanner.nextLine();
+
 		customerAddress.put("first_name", fName);
 		customerAddress.put("last_name", lName);
 		customerAddress.put("address_line1", addrLine1);
@@ -284,7 +339,8 @@ public class Customer {
 		customerAddress.put("city", city);
 		customerAddress.put("region", state);
 		customerAddress.put("postal_code", zip);
-		customerAddress.put("country", "US");
+		customerAddress.put("country", country);
+		customerAddress.put("phone_number", phone);
 
 		JSONObject customerProfile = new JSONObject();
 		customerProfile.put("email", email);
@@ -299,9 +355,9 @@ public class Customer {
 		customerDetails.put("user_name", "admin");
 		customerDetails.put("password", "Password!1");
 		customerDetails.put("profile", customerProfile);
-		
+
 		System.out.println("Request Body = " + customerDetails );
-		
+
 		scanner.close();
 
 		return customerDetails;
@@ -320,7 +376,7 @@ public class Customer {
 		tid = (String)data.get("tid"); //persist these values for later use
 		eTid = (String)data.get("etid"); //persist these values for later use
 	}
-	
+
 	public String getCustomerId()
 	{
 		System.out.println("Customer Id = " + customerId);

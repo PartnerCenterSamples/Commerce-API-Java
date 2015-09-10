@@ -24,16 +24,14 @@ import org.json.simple.JSONObject;
 @SuppressWarnings("unchecked")
 public class Order {
 
-	private String saToken;
 	private String allOrders;
 	private String order;
 	
-	public Order(String saToken)
+	public Order()
 	{
-		this.saToken = saToken;
+		
 	}
-
-
+	
 	// summary
 	// This method is used to place order on behalf of a customer by a reseller
 	// summary
@@ -43,7 +41,7 @@ public class Order {
 	// param name="offerUri", offer_uri of the product 
 	// param name="quantity", order quantity
 	// returns: order information that has references to the subscription uris and entitlement uri for the line items
-	public void placeOrderWithSingleLineItem(String resellerCid, String customerCid, String offerUri, String quantity)
+	public void placeOrderWithSingleLineItem(String resellerCid, String customerCid, String offerUri, String quantity, String saToken)
 	{
 		String requestUrl = String.format("%s%s%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), "/", resellerCid, "/orders");
 		System.out.println("Request Url = " + requestUrl);
@@ -93,7 +91,7 @@ public class Order {
 	// param name="resellerCid", the cid of the reseller
 	// param name="order", new Order item
 	// returns: order information that has references to the subscription uris and entitlement uri for the line items
-	public void placeOrderWithSingleLineItem(String resellerCid, JSONObject order)
+	public void placeOrderWithSingleLineItem(String resellerCid, JSONObject order, String saToken)
 	{
 		String requestUrl = String.format("%s%s%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), "/", resellerCid, "/orders");
 		System.out.println("Request Url = " + requestUrl);
@@ -147,7 +145,7 @@ public class Order {
 	// Internal param name="order", new Order that contains multiple line items
 	// param name="customerCid", customer cid for who the order is being placed
 	// returns: order information that has references to the subscription uris and entitlement uri for the line items
-	public void placeOrderWithMultieLineItems(String resellerCid, String customerCid)
+	public void placeOrderWithMultieLineItems(String resellerCid, String customerCid, String saToken)
 	{
 		String requestUrl = String.format("%s%s%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), "/", resellerCid, "/orders");
 		System.out.println("Request Url = " + requestUrl);
@@ -198,7 +196,7 @@ public class Order {
 	// param name="customerCid", cid of the customer
 	// param name="resellerCid", cid of the reseller
 	// returns: response that contains all orders
-	public String getAllOrders(String resellerCid, String customerCid)
+	public String getAllOrders(String resellerCid, String customerCid, String saToken)
 	{
 		String requestUrl = String.format("%s%s%s%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), "/", resellerCid, "/orders?recipient_customer_id=", customerCid);
 		System.out.println("Request Url = " + requestUrl);
@@ -244,11 +242,10 @@ public class Order {
     // summary
     // param name="resellerCid", the cid of the reseller
     // param name="orderId", order_id of the existing order
-    // param name="eTag", To get the most recent eTag, retrieve the order and persist the same
 	// param name="offerUri", offer_uri of the order
 	// param name="entitlementUri", Pass the subscription.links [“entitlement”].href from subscription to reference_entitlement_uris on the line_items property in the PATCH orders payload
 	// param name="quantity", quantity of the order to be updated
-	public void patchOrder(String resellerCid, String orderId, String eTag, String offerUri, String entitlementUri, String quantity)
+	public void patchOrder(String resellerCid, String orderId, String offerUri, String entitlementUri, String quantity, String saToken)
 	{
 		String requestUrl = String.format("%s%s%s%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), "/", resellerCid, "/orders/", orderId);
 		System.out.println("Request Url = " + requestUrl);
@@ -267,7 +264,6 @@ public class Order {
 			patchRequest.addHeader("x-ms-correlation-id", guid);
 			patchRequest.addHeader("api-version", "2015-03-31");
 			patchRequest.addHeader("Content-Type", "application/json");
-			//patchRequest.addHeader("If-Match", eTag);
 			
 			StringEntity se = new StringEntity(patchOrderRequestBody(offerUri, entitlementUri, quantity).toString());
 			patchRequest.setEntity(se);
@@ -297,7 +293,7 @@ public class Order {
     // param name="orderId", id of the order
     // param name="resellerCid", cid of the reseller
     // returns: order object
-	public String getOrder(String resellerCid, String orderId)
+	public String getOrder(String resellerCid, String orderId, String saToken)
 	{
 		String requestUrl = String.format("%s%s%s%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), "/", resellerCid, "/orders/", orderId);
 		System.out.println("Request Url = " + requestUrl);

@@ -34,6 +34,8 @@ public class AADToken {
 		appId          = PartnerAPiCredentialsProvider.getPropertyValue("AppId");
 		key            = PartnerAPiCredentialsProvider.getPropertyValue("Key");
 		defaultDomain  = PartnerAPiCredentialsProvider.getPropertyValue("DefaultDomain");
+		
+		validateCredentials();
 	}
 	public String getAADToken()
 	{
@@ -86,5 +88,27 @@ public class AADToken {
 		
 		System.out.println("AADToken = " + aadToken);
 		return aadToken;
+	}
+	
+	private void validateCredentials()
+	{
+		String resellerMicrosoftId = PartnerAPiCredentialsProvider.getPropertyValue("MicrosoftId");
+		String customerMicrosoftId = PartnerAPiCredentialsProvider.getPropertyValue("ExistingCustomerCid");
+		
+		System.out.println("App Id = " + appId);
+		System.out.println("Key = " + key);
+		System.out.println("DefaultDomain = " + defaultDomain);
+		System.out.println("Reseller Microsoft Id = " + resellerMicrosoftId);
+		System.out.println("Customer Microsoft Id = " + customerMicrosoftId);
+		
+		if(		appId.equals("your-app-id") || 
+				key.equals("your-secret-key") || 
+				defaultDomain.equals("yourtenant.onmicrosoft.com") || 
+				resellerMicrosoftId.equals("your-reseller-microsoft-id") ||
+				customerMicrosoftId.equals("your-customer-cid"))
+		{
+			System.out.println("Please enter valid credentials in the properties file before you run the CREST samples -> " + "config/CrestApiCredentials.properties");
+			System.exit(0);
+		}
 	}
 }

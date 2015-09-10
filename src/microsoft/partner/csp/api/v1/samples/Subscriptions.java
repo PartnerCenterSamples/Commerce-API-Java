@@ -30,8 +30,6 @@ import org.json.simple.parser.JSONParser;
 @SuppressWarnings("unchecked")
 public class Subscriptions {
 
-	private String saToken;
-
 	private List<String> subscriptionIds;
 	private List<String> eTags;
 	private List<String> orderIds;
@@ -42,9 +40,11 @@ public class Subscriptions {
 	private String subscription;
 	private String pageOfEvents;
 	
-	public Subscriptions(String saToken)
+	//private String saToken;
+	//public Subscriptions(String saToken)
+	public Subscriptions()
 	{
-		this.saToken 		= saToken;
+		//this.saToken 		= saToken;
 		subscriptionIds 	= new ArrayList<String>();
 		eTags 				= new ArrayList<String>();
 		orderIds 			= new ArrayList<String>();
@@ -58,7 +58,7 @@ public class Subscriptions {
     // param name="customerCid", cid of the customer
     // param name="resellerCid", cid of the reseller
     // returns: all of the subscriptions
-	public String getAllSubscriptions(String resellerCid, String customerCid)
+	public String getAllSubscriptions(String resellerCid, String customerCid, String saToken)
 	{
 		String requestUrl = String.format("%s%s%s%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), "/", resellerCid,"/subscriptions?recipient_customer_id=", customerCid);
 		System.out.println("Request Url = " + requestUrl);
@@ -107,7 +107,7 @@ public class Subscriptions {
     // param name="subscriptionId", subscription id
     // param name="resellerCid", cid of the reseller
     // returns: subscription object
-	public String getSubscriptionById(String resellerCid, String subscriptionId)
+	public String getSubscriptionById(String resellerCid, String subscriptionId, String saToken)
 	{
 		String requestUrl = String.format("%s%s%s%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), "/", resellerCid, "/subscriptions/", subscriptionId);
 		System.out.println("Request Url = " + requestUrl);
@@ -144,7 +144,7 @@ public class Subscriptions {
 		return subscription;
 	}
 
-	public void updateSubscriptionFriendlyName(String resellerCid, String subscriptionId, String friendlyNameOfSubscription)
+	public void updateSubscriptionFriendlyName(String resellerCid, String subscriptionId, String friendlyNameOfSubscription, String saToken)
 	{
 		String requestUrl = String.format("%s%s%s%s%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), "/", resellerCid, "/subscriptions/", subscriptionId, "/update-friendly-name");
 		HttpResponse response = null;
@@ -188,7 +188,7 @@ public class Subscriptions {
 		} 
 	}
 
-	public void addSubscriptionSuspension(String resellerCid, String subscriptionId)
+	public void suspendSubscription(String resellerCid, String subscriptionId, String saToken)
 	{
 		String requestUrl = String.format("%s%s%s%s%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), "/", resellerCid, "/subscriptions/", subscriptionId, "/add-suspension");
 		HttpResponse response = null;
@@ -207,7 +207,7 @@ public class Subscriptions {
 			postRequest.addHeader("api-version", "2015-03-31");
 			postRequest.addHeader("Content-Type", "application/json");
 			
-			StringEntity se = new StringEntity(addSuspensionRequestBody().toString());
+			StringEntity se = new StringEntity(suspendSubscriptionRequestBody().toString());
 			postRequest.setEntity(se);
 			
 			response = client.execute(postRequest);
@@ -228,7 +228,7 @@ public class Subscriptions {
 		} 
 	}
 
-	public void removeSubscriptionSuspension(String resellerCid, String subscriptionId)
+	public void activateSubscription(String resellerCid, String subscriptionId, String saToken)
 	{
 		String requestUrl = String.format("%s%s%s%s%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), "/", resellerCid, "/subscriptions/", subscriptionId, "/remove-suspension");
 		HttpResponse response = null;
@@ -247,7 +247,7 @@ public class Subscriptions {
 			postRequest.addHeader("api-version", "2015-03-31");
 			postRequest.addHeader("Content-Type", "application/json");
 			
-			StringEntity se = new StringEntity(removeSuspensionRequestBody().toString());
+			StringEntity se = new StringEntity(activateSubscriptionRequestBody().toString());
 			postRequest.setEntity(se);
 			
 			response = client.execute(postRequest);
@@ -277,7 +277,7 @@ public class Subscriptions {
     // param name="newOfferUri", transitioning to the new offer
 	// param name="referEntitlementUri", existing reference entitlement uri
     // returns: subscription to the new offer
-	public void transitionSubscription(String resellerCid, String customerCid, String quantity, String offerUri, String referEntitlementUri )
+	public void transitionSubscription(String resellerCid, String customerCid, String quantity, String offerUri, String referEntitlementUri, String saToken )
 	{
 		JSONObject lineItem = new JSONObject();
 		
@@ -297,7 +297,7 @@ public class Subscriptions {
 		
 		System.out.println("Request Body - Subscription Transition = " + order);
 		
-		new Order(saToken).placeOrderWithSingleLineItem(resellerCid, order);
+		new Order().placeOrderWithSingleLineItem(resellerCid, order, saToken);
 	}
 	
     // summary
@@ -306,7 +306,7 @@ public class Subscriptions {
     // param name="resellerCid", cid of the reseller
     // param name="streamName", name for the stream to be created
     // returns: stream information
-	public void createSubscriptionStream(String resellerCid, String streamName)
+	public void createSubscriptionStream(String resellerCid, String streamName, String saToken)
 	{
 		String requestUrl = String.format("%s%s%s%s%s%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), "/", resellerCid, "/subscription-streams/", resellerCid, "/", streamName);
 		System.out.println("Request Url = " + requestUrl);
@@ -360,7 +360,7 @@ public class Subscriptions {
     // param name="resellerCid", cid of the reseller
     // param name="streamName", name of the stream to be retrieved
     // returns: subscription events for the reseller along with link to mark the page as completed
-	public String getSubscriptionStream(String resellerCid, String streamName)
+	public String getSubscriptionStream(String resellerCid, String streamName, String saToken)
 	{
 		String requestUrl = String.format("%s%s%s%s%s%s%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), "/", resellerCid, "/subscription-streams/", resellerCid, "/", streamName, "/pages");
 		HttpResponse response = null;
@@ -401,11 +401,10 @@ public class Subscriptions {
     // This method is to mark the page as read inorder to move to the next page in the stream
     // summary
     // param name="completedUri", uri to mark the stream as completed
-	public void markPageAsCompleted(String completedUri)
+	public void markPageAsCompleted(String completedUri, String saToken)
 	{
-		String requestUrl = String.format("%s%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), "/", completedUri);
+		String requestUrl = String.format("%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), completedUri);
 		HttpResponse response = null;
-		//HttpClient client = new DefaultHttpClient();
 		CloseableHttpClient client = HttpClientBuilder.create().build();
 
 		System.out.println("Request Url = " + requestUrl);
@@ -436,7 +435,6 @@ public class Subscriptions {
 		{
 			System.out.println("IO Exception occured while getting the response - " + e.getMessage());
 		} 
-		//client.getConnectionManager().shutdown();
 	}
 	
 	public List<String> getSubscriptionIds() {
@@ -487,7 +485,7 @@ public class Subscriptions {
 		}
 	}
 	
-	private JSONObject addSuspensionRequestBody()
+	private JSONObject suspendSubscriptionRequestBody()
 	{
 		//JSONObject<String,Object> reason = new JSONObject<String,Object>();
 		JSONObject reason = new JSONObject();
@@ -499,7 +497,7 @@ public class Subscriptions {
 
 		return reason;
 	}
-	public JSONObject removeSuspensionRequestBody()
+	public JSONObject activateSubscriptionRequestBody()
 	{
 		JSONObject reason = new JSONObject();
 		reason.put("state", "Suspended");
@@ -508,5 +506,16 @@ public class Subscriptions {
 		System.out.println("Request Body - Remove suspension on a subscription = " + reason);
 
 		return reason;
+	}
+	public String getCompletionLink(String responseBody) throws org.json.simple.parser.ParseException
+	{
+		JSONParser parser = new JSONParser();
+
+		JSONObject response = (JSONObject) parser.parse(responseBody);
+
+		JSONObject links = (JSONObject)response.get("links");
+		JSONObject completion = (JSONObject)links.get("completion");
+		String completionUri = (String)completion.get("href");
+		return completionUri;
 	}
 }

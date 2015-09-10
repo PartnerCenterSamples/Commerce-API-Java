@@ -25,13 +25,13 @@ import org.json.simple.parser.ParseException;
 
 public class SAToken {
 
-	private String aadToken;
 	private String saToken;
-	public SAToken(String aadToken)
+
+	public SAToken()
 	{
-		this.aadToken = aadToken;
+		
 	}
-	public String getSAToken()
+	public String getSAToken(String aadToken)
 	{
 		List<NameValuePair> requestBody = new ArrayList<NameValuePair>();
 		String requestUrl = String.format("%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), "/my-org/tokens");

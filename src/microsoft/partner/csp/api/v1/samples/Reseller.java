@@ -21,18 +21,17 @@ import org.json.simple.parser.ParseException;
 
 public class Reseller {
 
-	private String saToken;
 	private String resellerCid;
 	
-	public Reseller(String saToken)
+	public Reseller()
 	{
-		this.saToken = saToken;
+		
 	}
-
+	
 	// This method is used to retrieve the reseller cid given the reseller microsoft id, and is used to perform any transactions by the reseller
 	// param name="resellerMicrosoftId", Microsoft ID of the reseller
 	// returns: Reseller cid that is required to use the partner apis
-	public String getResellerCid(String resellerMicrosoftId)
+	public String getResellerCid(String resellerMicrosoftId, String saToken)
 	{
 		String requestUrl = String.format("%s%s%s", PartnerAPiCredentialsProvider.getPropertyValue("ApiEndpoint"), "/customers/get-by-identity?provider=AAD&type=tenant&tid=", resellerMicrosoftId);
 		System.out.println("Request Url = " + requestUrl);
